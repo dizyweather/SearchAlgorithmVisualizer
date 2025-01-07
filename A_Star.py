@@ -3,7 +3,7 @@ import numpy as np
 from heapq import heapify, heappush, heappop
 from collections import defaultdict
 
-# Simple function to get the neighbors of a given node as a list
+# Simple function to get the neighbors of a given node as a list (In this case, the 8 neighbors)
 def getNeighbors(x, y):
     neighbors = []
     for i in range(3):
@@ -41,7 +41,7 @@ distances[(0, 0)]=0
 # A* setup data structures
 path = []
 min_queue = []
-heapify(min_queue)
+heapify(min_queue) # Where the magic happens, ordered queue!
 heappush(min_queue, (0, (0, 0)))
 
 dict = {}
@@ -67,7 +67,7 @@ while len(min_queue) != 0:
     # Get neighbors of current node
     neighbors = getNeighbors(current[0], current[1])
 
-    # Add all the valid unexplored neighbors to the queue with the proper hueristic and keep track of "parent node"
+    # Add all the valid unexplored neighbors to the queue with the hueristic and keep track of "parent node"
     for (dis,(x, y)) in neighbors:
         if x < 0 or x >= len(map):
             continue
@@ -83,7 +83,6 @@ while len(min_queue) != 0:
             dict[(x, y)] = current
             distances[(x, y)] = dis + distances[current] 
             heappush(min_queue, (np.sqrt((goal[0]-x)**2+(goal[1]-y)**2), (x, y))) # hurestic is euclidean distance
-            #heappush(min_queue, (distances[(x, y)] + np.sqrt((goal[0]-x)**2+(goal[1]-y)**2), (x, y))) # hurestic is euclidean distance
             
             # Mark all the new nodes added to queue with a green star
             plt.plot(y,x,'g*')    
